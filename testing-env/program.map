@@ -1,0 +1,124 @@
+     VMA      LMA     Size Align Out     In      Symbol
+       0        0        0     1 SFRORIGIN = 0x8000F000
+       0        0        0     1 RAMENDNEXT = 0x8000F000
+       0        0        0     1 PROVIDE ( STACKSIZE = 0x00000400 )
+       0        0        0     1 STACKORIGIN = RAMENDNEXT - STACKSIZE
+       0        0        0     1 PROVIDE ( _$$SP = RAMENDNEXT )
+       0        0        0     1 DYNAMIC = __data_end + 0x2
+       0        0        0     1 DYNAMICSIZE = STACKORIGIN - DYNAMIC
+       0        0        0     1 ROMWINDOWSIZE = 0xD000
+       0        0     34d6     4 .rom
+       0        0        8     1         D:\Github\nxu16-dev\testing-env\startup.o:(.text.isr_vector)
+       8        8        0     1         . = 0x8
+       8        8        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x8)
+       a        a        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0xa)
+       c        c        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0xc)
+       e        e        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0xe)
+      10       10        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x10)
+      12       12        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x12)
+      14       14        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x14)
+      16       16        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x16)
+      18       18        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x18)
+      1a       1a        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x1a)
+      1c       1c        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x1c)
+      1e       1e        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x1e)
+      20       20        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x20)
+      22       22        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x22)
+      24       24        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x24)
+      26       26        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x26)
+      28       28        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x28)
+      2a       2a        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x2a)
+      2c       2c        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x2c)
+      2e       2e        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x2e)
+      30       30        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x30)
+      32       32        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x32)
+      34       34        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x34)
+      36       36        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x36)
+      38       38        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x38)
+      3a       3a        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x3a)
+      3c       3c        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x3c)
+      3e       3e        0     1         __rodata0_end = ( . )
+      3e       3e        0     1         
+      3e       3e        8     1         D:\Github\nxu16-dev\testing-env\startup.o:(.text0.start_up)
+      3e       3e        0     1                 _$$start_up
+      40       40        0     1                 _$$brk_reset
+      40       40        0     1                 _$$error
+      40       40        0     1                 _$$bal_00
+      42       42        0     1                 _$begin
+      46       46        0     1         __text0_end = ( . )
+      46       46        0     1         
+      48       48      d60     4         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text)
+      48       48        8     1                 a()
+      50       50       1e     1                 reset_timer()
+      70       70       74     1                 delay(unsigned short)
+      e4       e4       ec     1                 reset_sfrs()
+     1d0      1d0       2c     1                 reset_screen_sfrs()
+     1fc      1fc       da     1                 scan_key(kiko AS2*)
+     2d8      2d8       d2     1                 key_debounce(kiko AS2*)
+     3ac      3ac       a2     1                 wait_kiko()
+     450      450      31e     1                 draw_glyph(unsigned char, unsigned char, unsigned char)
+     770      770       98     1                 line_print_n(char const AS2*, unsigned char, unsigned char)
+     808      808       90     1                 line_print_f(char const*, unsigned char, unsigned char)
+     898      898      132     1                 rect_line(unsigned char, unsigned char)
+     9cc      9cc      2f6     1                 rect(unsigned char, unsigned char, unsigned char, unsigned char)
+     cc4      cc4       e4     1                 getkeycode()
+     da8      da8     15c6     4         D:\Github\nxu16-dev\testing-env\LCDPaint.o:(.text)
+     da8      da8      11c     1                 LCD_BufferSetPix
+     ec4      ec4      132     1                 LCD_BufferGetPix
+     ff8      ff8      654     1                 LCD_BufferHLine
+    164c     164c      2cc     1                 LCD_BufferVLine
+    1918     1918      378     1                 LCD_BufferDrawLine
+    1c90     1c90      6c4     1                 LCD_BufferPutSprite
+    2354     2354       1a     1                 LCD_BufferClear
+    2370     2370       30     4         D:\Github\nxu16-dev\testing-env\libc.o:(.text)
+    2370     2370        0     1                 DebugOutputString
+    2372     2372        0     1                 loop7
+    2380     2380        0     1                 memzero_n
+    2386     2386        0     1                 .loop
+    2390     2390        0     1                 get_msb
+    2392     2392        0     1                 .loop13
+    23a0     23a0       86     4         D:\Github\nxu16-dev\testing-env\line_print.o:(.text)
+    23a0     23a0        0     1                 render_copy
+    23b6     23b6        0     1                 .l_018
+    23ba     23ba        0     1                 .l_01c
+    23ca     23ca        0     1                 .l_02c
+    23ce     23ce        0     1                 .l_030
+    23d8     23d8        0     1                 .l_038
+    23da     23da        0     1                 .l_03a
+    2424     2424        0     1                 .l_07a
+    2428     2428       60     4         D:\Github\nxu16-dev\testing-env\main.o:(.text)
+    2428     2428       60     1                 main
+    2488     2488        0     4         D:\Github\nxu16-dev\testing-env\startup.o:(.text)
+    2488     2488        0     4         C:/LAPIS/LEXIDE/BuildTools/Ver.20231124/Lib/U16/PL99U16LWF.a(memset_f.o):(.text)
+    2488     2488       2a     4         C:/LAPIS/LEXIDE/BuildTools/Ver.20231124/Lib/U16/longu8.a(IMULLW.o):(.text)
+    2488     2488        0     1                 __imulu8lw
+    248e     248e        0     1                 m_level1x1
+    2492     2492        0     1                 m_level1x2
+    249a     249a        0     1                 m_level2x1
+    24a4     24a4        0     1                 m_level2x2
+    24b4     24b4       10     4         C:/LAPIS/LEXIDE/BuildTools/Ver.20231124/Lib/U16/longu8.a(PUSHPOPU8LW.o):(.text)
+    24b4     24b4        0     1                 __regpushu8lw
+    24bc     24bc        0     1                 __regpopu8lw
+    24c4     24c4        6     4         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text._Z15GetScreenBufferv)
+    24c4     24c4        6     1                 GetScreenBuffer()
+    24cc     24cc       aa     4         C:/LAPIS/LEXIDE/BuildTools/Ver.20231124/Lib/U16/PL99U16LWF.a(memset_f.o):(.text.memset_f)
+    24cc     24cc       aa     1                 memset_f
+    2576     2576      f1a     2         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.rodata)
+    2576     2576      e39     1                 normal_font
+    33b0     33b0       70     1                 keymap
+    3420     3420       70     1                 keymap_shift
+    3490     3490       46     1         D:\Github\nxu16-dev\testing-env\LCDPaint.o:(.rodata)
+8000d000 8000d000        2     1 .bss
+8000d000 8000d000        1     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.bss)
+8000d000 8000d000        1     1                 key_mod
+8000d002 8000d002        0     1         __data_end = .
+8000f000 8000f000        0     1 .sfr
+8000f000 8000f000        0     1         DSR = ABSOLUTE ( 0xF000 )
+       0        0       b2     1 .comment
+       0        0       b2     1         <internal>:(.comment)
+       0        0      480     4 .symtab
+       0        0      480     4         <internal>:(.symtab)
+       0        0       33     1 .shstrtab
+       0        0       33     1         <internal>:(.shstrtab)
+       0        0      380     1 .strtab
+       0        0      380     1         <internal>:(.strtab)
