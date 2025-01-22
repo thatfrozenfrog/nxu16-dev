@@ -1,0 +1,252 @@
+//#include "classwiz_bsp.h"
+#include "libc.h"
+#include "classwiz_bsp.h"
+#define PI 3.14159265
+typedef short int16_t;
+#define float double
+const int16_t sin_table[256] = {
+        0,     3,     6,     9,    13,    16,    19,    22,
+       25,    28,    31,    34,    37,    40,    43,    46,
+       49,    52,    55,    58,    60,    63,    66,    68,
+       71,    74,    76,    79,    81,    84,    86,    88,
+       91,    93,    95,    97,    99,   101,   103,   105,
+      106,   108,   110,   111,   113,   114,   116,   117,
+      118,   119,   121,   122,   122,   123,   124,   125,
+      126,   126,   127,   127,   127,   128,   128,   128,
+      128,   128,   128,   128,   127,   127,   127,   126,
+      126,   125,   124,   123,   122,   122,   121,   119,
+      118,   117,   116,   114,   113,   111,   110,   108,
+      106,   105,   103,   101,    99,    97,    95,    93,
+       91,    88,    86,    84,    81,    79,    76,    74,
+       71,    68,    66,    63,    60,    58,    55,    52,
+       49,    46,    43,    40,    37,    34,    31,    28,
+       25,    22,    19,    16,    13,     9,     6,     3,
+        0,    -3,    -6,    -9,   -13,   -16,   -19,   -22,
+      -25,   -28,   -31,   -34,   -37,   -40,   -43,   -46,
+      -49,   -52,   -55,   -58,   -60,   -63,   -66,   -68,
+      -71,   -74,   -76,   -79,   -81,   -84,   -86,   -88,
+      -91,   -93,   -95,   -97,   -99,  -101,  -103,  -105,
+     -106,  -108,  -110,  -111,  -113,  -114,  -116,  -117,
+     -118,  -119,  -121,  -122,  -122,  -123,  -124,  -125,
+     -126,  -126,  -127,  -127,  -127,  -128,  -128,  -128,
+     -128,  -128,  -128,  -128,  -127,  -127,  -127,  -126,
+     -126,  -125,  -124,  -123,  -122,  -122,  -121,  -119,
+     -118,  -117,  -116,  -114,  -113,  -111,  -110,  -108,
+     -106,  -105,  -103,  -101,   -99,   -97,   -95,   -93,
+      -91,   -88,   -86,   -84,   -81,   -79,   -76,   -74,
+      -71,   -68,   -66,   -63,   -60,   -58,   -55,   -52,
+      -49,   -46,   -43,   -40,   -37,   -34,   -31,   -28,
+      -25,   -22,   -19,   -16,   -13,    -9,    -6,    -3,
+};
+
+const int16_t cos_table[256] = {
+      128,   128,   128,   128,   127,   127,   127,   126,
+      126,   125,   124,   123,   122,   122,   121,   119,
+      118,   117,   116,   114,   113,   111,   110,   108,
+      106,   105,   103,   101,    99,    97,    95,    93,
+       91,    88,    86,    84,    81,    79,    76,    74,
+       71,    68,    66,    63,    60,    58,    55,    52,
+       49,    46,    43,    40,    37,    34,    31,    28,
+       25,    22,    19,    16,    13,     9,     6,     3,
+        0,    -3,    -6,    -9,   -13,   -16,   -19,   -22,
+      -25,   -28,   -31,   -34,   -37,   -40,   -43,   -46,
+      -49,   -52,   -55,   -58,   -60,   -63,   -66,   -68,
+      -71,   -74,   -76,   -79,   -81,   -84,   -86,   -88,
+      -91,   -93,   -95,   -97,   -99,  -101,  -103,  -105,
+     -106,  -108,  -110,  -111,  -113,  -114,  -116,  -117,
+     -118,  -119,  -121,  -122,  -122,  -123,  -124,  -125,
+     -126,  -126,  -127,  -127,  -127,  -128,  -128,  -128,
+     -128,  -128,  -128,  -128,  -127,  -127,  -127,  -126,
+     -126,  -125,  -124,  -123,  -122,  -122,  -121,  -119,
+     -118,  -117,  -116,  -114,  -113,  -111,  -110,  -108,
+     -106,  -105,  -103,  -101,   -99,   -97,   -95,   -93,
+      -91,   -88,   -86,   -84,   -81,   -79,   -76,   -74,
+      -71,   -68,   -66,   -63,   -60,   -58,   -55,   -52,
+      -49,   -46,   -43,   -40,   -37,   -34,   -31,   -28,
+      -25,   -22,   -19,   -16,   -13,    -9,    -6,    -3,
+        0,     3,     6,     9,    13,    16,    19,    22,
+       25,    28,    31,    34,    37,    40,    43,    46,
+       49,    52,    55,    58,    60,    63,    66,    68,
+       71,    74,    76,    79,    81,    84,    86,    88,
+       91,    93,    95,    97,    99,   101,   103,   105,
+      106,   108,   110,   111,   113,   114,   116,   117,
+      118,   119,   121,   122,   122,   123,   124,   125,
+      126,   126,   127,   127,   127,   128,   128,   128,
+};
+
+void set_pixel(byte x, byte y)
+{
+	*(byte __near *)(0xf800 + (ushort)y * 0x20 + (x / 8)) |= 0x80 >> (x & 7);
+}
+
+double cosf(double r){
+
+	long a = r;
+	a = a & 255;
+	return cos_table[a] / 128.0f;
+}
+double sinf(double r){
+	long a = r;
+	a = a & 255;
+	return sin_table[a] / 128.0f;
+}
+
+
+
+void plot_line (int x0, int y0, int x1, int y1)
+{
+  int dx =  abs (x1 - x0), sx = x0 < x1 ? 1 : -1;
+  int dy = -abs (y1 - y0), sy = y0 < y1 ? 1 : -1;
+  int err = dx + dy, e2;
+
+  for (;;){
+    set_pixel (x0,y0);
+    if (x0 == x1 && y0 == y1) break;
+    e2 = 2 * err;
+    if (e2 >= dy) { err += dy; x0 += sx; }
+    if (e2 <= dx) { err += dx; y0 += sy; }
+  }
+}
+
+
+
+
+
+int main()
+{
+    memzero_n((void __near *)0x9000, ((ushort)0xef00 - (ushort)0x9000));
+	reset_sfrs();
+	delay(1600);
+	FCON = 0x81;
+	reset_screen_sfrs();
+	memzero_n((void __near *)GetScreenBuffer(), 0x600 * 2);
+	render_copy();
+	double rotatedX = 0, rotatedY = 0, rotatedZ = 0;
+	int scalex = 24; // (192 - 4) / 8
+	int scaley = 24; // (63 - 4) / 8
+	int transx = 94; // (192 - 4) / 2
+	int transy = 30; // (63 - 4) / 2
+	double cube_corners[8][3] = {
+		{-1, -1, -1},
+		{1, -1, -1},
+		{-1, -1, 1},
+		{1, -1, 1},
+		{-1, 1, -1},
+		{1, 1, -1},
+		{-1, 1, 1},
+		{1, 1, 1},
+	};
+	double rotatedCorners[8][3] = {
+		{0, 0, 0},
+		{0, 0, 0},
+		{0, 0, 0},
+		{0, 0, 0},
+		{0, 0, 0},
+		{0, 0, 0},
+		{0, 0, 0},
+		{0, 0, 0},
+	};
+
+	double ax = 0.0;
+	double ay = 0.0;
+	double az = 0.0;
+
+	int edges[24][2] = {
+    {0, 1}, {1, 3}, {3, 2}, {2, 0},
+    {0, 4}, {1, 5}, {2, 6}, {3, 7},
+    {4, 5}, {5, 7}, {7, 6}, {6, 4}
+	};
+
+	DebugOutputString("hellooo");
+	memzero_n((void __near *)0xF820, 0x600 * 2);
+	render_copy();
+
+	while(1){
+		ax += 0.3 / 10;
+		ay += 0.8 / 10;
+		az += 0.13 / 10;
+		if (ax > 2*PI){
+			ax = fmodf(ax, 2*PI);
+		}
+		if (ax > 2*PI){
+			ax = fmodf(ax, 2*PI);
+		}
+		if (az > 2*PI){
+			az = fmodf(az, 2*PI);
+		}
+		
+
+		for (int i = 0; i < sizeof(cube_corners) / sizeof(cube_corners[0]); i++) {
+			double x = cube_corners[i][0];
+			double y = cube_corners[i][1];
+			double z = cube_corners[i][2];
+			double oldax = ax;
+			double olday = ay;
+			double oldaz = az;
+			ax *= 40.743665431525205;
+			ay *= 40.743665431525205;
+			az *= 40.743665431525205;
+			rotatedX = x;
+			rotatedY = (y * cosf(ax)) - (z * sinf(ax));
+			rotatedZ = (y * sinf(ax)) + (z * cosf(ax));
+
+			x = rotatedX;
+			y = rotatedY;
+			z = rotatedZ;
+
+			rotatedX = (x * cosf(ay)) + (z * sinf(ay));
+			rotatedY = y;
+			rotatedZ = -(x * sinf(ay)) + (z * cosf(ay));
+
+			x = rotatedX;
+			y = rotatedY;
+			z = rotatedZ;
+
+			rotatedX = (x * cosf(az)) - (y * sinf(az));
+			rotatedY = (x * sinf(az)) + (y * cosf(az));
+			rotatedZ = z;
+
+			rotatedCorners[i][0] = rotatedX;
+			rotatedCorners[i][1] = rotatedY;
+			rotatedCorners[i][2] = rotatedZ;
+			
+			ax = oldax;
+			ay = olday;
+			az = oldaz;
+
+
+		};
+
+		memzero_n((void __near *)GetScreenBuffer(), 0x600 * 2);
+
+		for (int j = 0; j < sizeof(edges) / sizeof(edges[0]); j++) {
+			int fromIndex = edges[j][0];
+			int toIndex = edges[j][1];
+
+			double from[2] = {
+				rotatedCorners[fromIndex][0] * scalex + transx,
+				rotatedCorners[fromIndex][1] * scaley + transy
+			};
+			double to[2] = {
+				rotatedCorners[toIndex][0] * scalex + transx,
+				rotatedCorners[toIndex][1] * scaley + transy
+			};
+			plot_line(from[0], from[1], to[0], to[1]);
+		}
+
+	}
+
+
+	
+	__asm("brk");
+	
+}
+	/*
+	for (int i = 0; i < 192; i++)
+	{
+		//set_pixel(i, cosf((i - 96) / 10.0f) * 12.0f + 24.0f);
+		plot_line(0x00,0x00,cosf((i - 96) / 10.0f) * 12.0f + 24.0f,sinf((i - 96) / 10.0f) * 12.0f + 24.0f);
+		//memzero_n((void __near *)GetScreenBuffer(), 0x600 * 2);
+		//line_print_f(test, i, cosf((i - 96) / 10.0f) * 12.0f + 24.0f);
+		delay(100);
+	}*/

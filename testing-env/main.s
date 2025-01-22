@@ -20,17 +20,7 @@ main :
 	mov	r3, #95
 	bl	memzero_n
 	bl	_Z10reset_sfrsv
-	mov	r0, #64
-	mov	r1, #6
-	bl	_Z5delayt
-	mov	r0, #-127
-	st	r0, 0x0F00A
 	bl	_Z17reset_screen_sfrsv
-	mov	r0, #-44
-	mov	r1, #-35
-	mov	r2, #0
-	mov	r3, #12
-	bl	memzero_n
 	mov	r0, 0x00
 	st	r0, -1[fp]
 	bl	render_copy

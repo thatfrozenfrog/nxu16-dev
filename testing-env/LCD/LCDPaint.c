@@ -5,7 +5,7 @@
 #include "LCDPaint.h"
 
 
-//uint8_t LCDBuffer[LCD_BUFFER_SIZE];
+// uint8_t LCDBuffer[LCD_BUFFER_SIZE];
 
 
 void LCD_BufferSetPix(LCD_pos_t x, LCD_pos_t y, LCD_color_t c) {

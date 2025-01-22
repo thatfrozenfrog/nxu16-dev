@@ -7,7 +7,7 @@
        0        0        0     1 DYNAMIC = __data_end + 0x2
        0        0        0     1 DYNAMICSIZE = STACKORIGIN - DYNAMIC
        0        0        0     1 ROMWINDOWSIZE = 0xD000
-       0        0     34d6     4 .rom
+       0        0     34be     4 .rom
        0        0        8     1         D:\Github\nxu16-dev\testing-env\startup.o:(.text.isr_vector)
        8        8        0     1         . = 0x8
        8        8        2     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text0.vector.0x8)
@@ -86,28 +86,28 @@
     23d8     23d8        0     1                 .l_038
     23da     23da        0     1                 .l_03a
     2424     2424        0     1                 .l_07a
-    2428     2428       60     4         D:\Github\nxu16-dev\testing-env\main.o:(.text)
-    2428     2428       60     1                 main
-    2488     2488        0     4         D:\Github\nxu16-dev\testing-env\startup.o:(.text)
-    2488     2488        0     4         C:/LAPIS/LEXIDE/BuildTools/Ver.20231124/Lib/U16/PL99U16LWF.a(memset_f.o):(.text)
-    2488     2488       2a     4         C:/LAPIS/LEXIDE/BuildTools/Ver.20231124/Lib/U16/longu8.a(IMULLW.o):(.text)
-    2488     2488        0     1                 __imulu8lw
-    248e     248e        0     1                 m_level1x1
-    2492     2492        0     1                 m_level1x2
-    249a     249a        0     1                 m_level2x1
-    24a4     24a4        0     1                 m_level2x2
-    24b4     24b4       10     4         C:/LAPIS/LEXIDE/BuildTools/Ver.20231124/Lib/U16/longu8.a(PUSHPOPU8LW.o):(.text)
-    24b4     24b4        0     1                 __regpushu8lw
-    24bc     24bc        0     1                 __regpopu8lw
-    24c4     24c4        6     4         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text._Z15GetScreenBufferv)
-    24c4     24c4        6     1                 GetScreenBuffer()
-    24cc     24cc       aa     4         C:/LAPIS/LEXIDE/BuildTools/Ver.20231124/Lib/U16/PL99U16LWF.a(memset_f.o):(.text.memset_f)
-    24cc     24cc       aa     1                 memset_f
-    2576     2576      f1a     2         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.rodata)
-    2576     2576      e39     1                 normal_font
-    33b0     33b0       70     1                 keymap
-    3420     3420       70     1                 keymap_shift
-    3490     3490       46     1         D:\Github\nxu16-dev\testing-env\LCDPaint.o:(.rodata)
+    2428     2428       46     4         D:\Github\nxu16-dev\testing-env\main.o:(.text)
+    2428     2428       46     1                 main
+    2470     2470        0     4         D:\Github\nxu16-dev\testing-env\startup.o:(.text)
+    2470     2470        0     4         C:/LAPIS/LEXIDE/BuildTools/Ver.20231124/Lib/U16/PL99U16LWF.a(memset_f.o):(.text)
+    2470     2470       2a     4         C:/LAPIS/LEXIDE/BuildTools/Ver.20231124/Lib/U16/longu8.a(IMULLW.o):(.text)
+    2470     2470        0     1                 __imulu8lw
+    2476     2476        0     1                 m_level1x1
+    247a     247a        0     1                 m_level1x2
+    2482     2482        0     1                 m_level2x1
+    248c     248c        0     1                 m_level2x2
+    249c     249c       10     4         C:/LAPIS/LEXIDE/BuildTools/Ver.20231124/Lib/U16/longu8.a(PUSHPOPU8LW.o):(.text)
+    249c     249c        0     1                 __regpushu8lw
+    24a4     24a4        0     1                 __regpopu8lw
+    24ac     24ac        6     4         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.text._Z15GetScreenBufferv)
+    24ac     24ac        6     1                 GetScreenBuffer()
+    24b4     24b4       aa     4         C:/LAPIS/LEXIDE/BuildTools/Ver.20231124/Lib/U16/PL99U16LWF.a(memset_f.o):(.text.memset_f)
+    24b4     24b4       aa     1                 memset_f
+    255e     255e      f1a     2         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.rodata)
+    255e     255e      e39     1                 normal_font
+    3398     3398       70     1                 keymap
+    3408     3408       70     1                 keymap_shift
+    3478     3478       46     1         D:\Github\nxu16-dev\testing-env\LCDPaint.o:(.rodata)
 8000d000 8000d000        2     1 .bss
 8000d000 8000d000        1     1         D:\Github\nxu16-dev\testing-env\classwiz_bsp.o:(.bss)
 8000d000 8000d000        1     1                 key_mod
