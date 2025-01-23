@@ -1,5 +1,6 @@
 #include "libc.h"
 #include "classwiz_bsp.h"
+#include "key/matrixkeygpto1.h"
 #include "menu.h"
 /*
 class MenuItem
@@ -47,35 +48,32 @@ ushort show_menu(const MenuItem *pmenuitems, byte count)
         }
         //render_copy();
         auto kv = wait_kiko();
+        //auto kv = wait_key();
         val(0xD130) = kv.ki;
         val(0xD131) = kv.ko;
         switch (*(ushort *)(&kv))
         {
-        case 0x0880:
+        
+        case 0x0480:
             if (ind > 0)
             ind--;
             break; // Up
-        case 0x0820:
-            if (ind < count)
-            ind++;
-            break; // Down
-        case 0x0440:
-            break; // Left
-        case 0x1040:
-            break; // Right
         case 0x0840:
-        /*
+            if (ind < count - 1)
+                ind++;
+            break; // Down
+        
         case 0x4001:
             if (pmenuitems[ind].op != 0)
                 return pmenuitems[ind].op;
-            break; // Exe
-        case 0x2080:
+            break; // Equ
+        case 0x0440:
             if (ind > 3)
                 ind -= 4;
             else
                 ind = 0;
-            break; // PgUp
-        case 0x2040:
+            break; // Left
+        case 0x0880:
             if (ind < (count - 4))
             {
                 ind += 4;
@@ -83,23 +81,26 @@ ushort show_menu(const MenuItem *pmenuitems, byte count)
             }
             else
                 ind = count;
-            break; // PgDn */
-        case 257:  // 1
+            break; // Right
+        case 0x0101:  // 1
             if (start <= count && pmenuitems[start].op != 0)
                 return pmenuitems[start].op;
             break;
-        case 513: // 2
+        case 0x0201: // 2
             if (start + 1 <= count && pmenuitems[start + 1].op != 0)
                 return pmenuitems[start + 1].op;
             break;
-        case 1025: // 3
+        case 0x0401: // 3
             if (start + 2 <= count && pmenuitems[start + 2].op != 0)
                 return pmenuitems[start + 2].op;
             break;
-        case 258: // 4
+        case 0x0801: // 4
             if (start + 3 <= count && pmenuitems[start + 3].op != 0)
                 return pmenuitems[start + 3].op;
             break;
+
+        case 0x8000:
+            break; // no button
         }
         if (ind < start)
         {

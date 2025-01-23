@@ -2,6 +2,8 @@
 
 #include "classwiz_bsp.h"
 #include "menu.h"
+#include "key/matrixkeygpto1.h"
+#include "cwx_asm.h"
 #define PI 3
 typedef short int16_t;
 #define double float
@@ -44,6 +46,7 @@ void plot_line (int x0, int y0, int x1, int y1)
 
 
 
+
 enum BUTTON
 {
 	B_0 = 0xb,
@@ -70,43 +73,57 @@ enum BUTTON
 	SP_EQU = 0x0F
 };
 
-byte lastbutton = 0xff;
-byte CheckButtons()
+byte checkButtons()
 {
-	byte x;
-	byte y;
-	byte i = 0;
-	for(x = 0x80; x != 0; x = x >> 1)
-	{
-		val(0xf046) = x;
-		for(y = 0x80; y != 0; y = y >> 1)
-		{
-			if((val(0xf040) & y) == 0)
-			{
-				if(i != lastbutton)
-				{
-					lastbutton = i;
-					return i;
-				}
-				return 0xff;
-			}
-			++i;
-		}
-	}
-	lastbutton = 0x50;
-	return 0xff;
+    byte i = 0x00;
+	byte lastButton = 0xff;
+
+    for(byte x = 0x80; x != 0; x = x >> 1)
+    {
+        KeyboardOut = x;
+        for(byte y = 0x80; y != 0; y = y >> 1)
+        {
+            if((KeyboardIn & y) == 0)
+            {
+                if(i != lastButton)
+                {
+                    lastButton = i;
+                    return i;
+                }
+                return 0xff;
+            }
+            ++i;
+        }
+    }
+    lastButton = 0x50;
+    return 0xff;
 }
 
 
-int main() {
+byte wait_button(void)
+{
+	byte button = 0xff;
+	while (button == 0xff)
+	{
+		button = checkButtons();
+	}
+	return button;
+}
+
+int main(void)
+{
     memzero_n((void __near *)0x9000, ((ushort)0xef00 - (ushort)0x9000));
+	
 	reset_sfrs();
 	delay(1600);
 	FCON = 0x81;
 	reset_screen_sfrs();
 	memzero_n((void __near *)GetScreenBuffer(), 0x600 * 2);
 	render_copy();
-	while (1){
-		val(0xD180) = CheckButtons();
+	while (1) {
+		ushort key = get_keycode_fixed();
+		val(0xd180) = (key >> 8) & 0xFF;
+		val(0xd181) = key & 0xFF;
 	}
 }
+

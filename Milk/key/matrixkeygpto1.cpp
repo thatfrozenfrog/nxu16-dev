@@ -22,17 +22,16 @@
  *    KeyboardOutMask = 0xF0 might mean the upper 4 bits of a port are outputs.
  *
  * Then KeyboardIn and KeyboardOut hold the actual bits read from or written to the port.
- * They are placeholders that you’d replace with actual register references
+ * They are placeholders that you'd replace with actual register references
  * (e.g., GPIO->DATA or a hardware-specific definition).
  */
 /*
  * Debounce thresholds and storage:
  */
-static byte key_state[ROWS][COLS]    = {{0}};
 static byte scan_state[ROWS][COLS]   = {{0}};
 static byte debounce_count[ROWS][COLS] = {{0}};
 // The number of consecutive scans required to confirm a stable change:
-static const byte DEBOUNCE_THRESHOLD = 1;
+static const byte DEBOUNCE_THRESHOLD = 8;
 
 /*
  * External SDK function you mentioned for introducing a delay (in milliseconds).
@@ -41,49 +40,50 @@ static const byte DEBOUNCE_THRESHOLD = 1;
 extern void delay(ushort ms);
 
 /*
+ * A simple struct to hold the row/column information (or raw KeyboardIn/KeyboardOut).
+ * Here, KeyboardIn = column index, KeyboardOut = row index (you can redefine as needed).
+ */
+struct KeyboardInKeyboardOut {
+    byte ki;
+    byte ko;
+};
+
+/*
  * Initialize your matrix keypad hardware:
  *   Configure row lines as outputs (KeyboardOut) and column lines as inputs (KeyboardIn).
  */
 void matrix_init(void)
 {
-    /*
-     * Example pseudo-code—replace with real hardware config for your system.
-     * e.g., GPIO->DIR = (GPIO->DIR & ~KeyboardInMask) | KeyboardOutMask;
-     * and possibly enable pull-ups or pull-downs for the column lines.
-     */
+    KeyboardInMask = 0xff;
 }
 
 /*
  * Scan the entire keypad matrix once. Debounce logic is built in.
  */
-void matrix_scan(void)
+KeyboardInKeyboardOut matrix_scan(void)
 {
     for (byte row = 0; row < ROWS; row++)
     {
-        // Drive only this row line. Turn off other row lines.
-        KeyboardOut &= ~KeyboardOutMask; // Clear all row bits first
-        // Suppose row 0 is bit 4, row 1 is bit 5, etc. Adjust as needed.
-        KeyboardOut |= (1 << (4 + row));
-
-        // Optional small stabilization delay. In many cases, not strictly necessary:
-        // for (volatile int i = 0; i < 100; i++) { /* small nop loop */ }
-
-        // Read columns from KeyboardIn:
-        byte input_bits = KeyboardIn & KeyboardInMask;
-
-        // For each column, determine if pressed (assuming 0 = pressed, 1 = released).
+        KeyboardOut = (1 << row);
+        byte input_bits = KeyboardIn;
         for (byte col = 0; col < COLS; col++)
         {
             byte bit_val = (input_bits & (1 << col)) ? 1 : 0;
             byte pressed = (bit_val == 0) ? 1 : 0;
-
-            // Debounce logic:
             if (pressed == scan_state[row][col])
             {
-                debounce_count[row][col]++;
                 if (debounce_count[row][col] >= DEBOUNCE_THRESHOLD)
                 {
-                    key_state[row][col] = pressed;
+                    bool is_pressed = !scan_state[row][col] && pressed;
+                    scan_state[row][col] = pressed;
+                    if (is_pressed)
+                    {
+                        return {(byte)(0x01 << row), (byte)(0x01 << col)};
+                    }
+                }
+                else
+                {
+                    debounce_count[row][col]++;
                 }
             }
             else
@@ -93,6 +93,7 @@ void matrix_scan(void)
             }
         }
     }
+    return {0, 0};
 }
 
 /*
@@ -105,17 +106,10 @@ byte matrix_get_key_state(byte row, byte col)
     {
         return 0;
     }
-    return key_state[row][col];
+    return scan_state[row][col];
 }
 
-/*
- * A simple struct to hold the row/column information (or raw KeyboardIn/KeyboardOut).
- * Here, KeyboardIn = column index, KeyboardOut = row index (you can redefine as needed).
- */
-struct KeyboardInKeyboardOut {
-    byte ki;
-    byte ko;
-};
+
 
 /*
  * Wait for a key press, then return its row/column as struct KeyboardInKeyboardOut.
@@ -134,21 +128,21 @@ struct KeyboardInKeyboardOut wait_key(void)
         {
             for (byte c = 0; c < COLS; c++)
             {
-                if (matrix_get_key_state(r, c) == 1)
+                if (matrix_get_key_state(r, c) == 1) // <---- there
                 {
                     // Found a pressed key; return row/col
-                    result.ki = c; // column index
-                    result.ko = r; // row index
+                    result.ki = 0x01 << c; // column index
+                    result.ko = 0x01 << r; // row index
                     return result;
                 }
             }
         }
         // No key pressed yet, wait a bit before next scan
-        delay(10);
+        delay(100);
     }
 }
-
-int main_old(void)
+/*
+int main(void)
 {
     memzero_n((void __near *)0x9000, ((ushort)0xef00 - (ushort)0x9000));
 	reset_sfrs();
@@ -164,8 +158,8 @@ int main_old(void)
     {
         // Example usage: wait for a key press, then do something with the row/col.
         struct KeyboardInKeyboardOut pressedKey = wait_key();
-        val(0xD130) = pressedKey.ki;
-        val(0xD131) = pressedKey.ko;
+        val(0xd180) = pressedKey.ki;
+        val(0xd181) = pressedKey.ko;
         // pressedKey.KeyboardIn (column), pressedKey.KeyboardOut (row)
         
         // ... handle the key press ...
@@ -175,3 +169,4 @@ int main_old(void)
 
     return 0;
 }
+*/

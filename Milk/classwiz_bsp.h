@@ -1,5 +1,6 @@
 #pragma once
 #include "libc.h"
+#include "cwx_asm.h"
 #define val(x) *((volatile __near byte *)x)
 // STPACP
 // STPACP is a write-only special function register (SFR) that is used for setting a STOP mode.
