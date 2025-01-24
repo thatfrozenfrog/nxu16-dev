@@ -8,8 +8,9 @@ using ulong = unsigned long;
 extern "C"
 {
     void DebugOutputString(const char *);
-        void memzero_n(void __near *, ushort);
-            byte get_msb(byte);
+    void memzero_n(void __near *, ushort);
+    void __near *memset_n(void __near *, int, size_t);
+    byte get_msb(byte);
 }
 
 inline void DebugOutputInt(long n)

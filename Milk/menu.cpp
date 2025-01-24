@@ -2,6 +2,7 @@
 #include "classwiz_bsp.h"
 #include "key/matrixkeygpto1.h"
 #include "menu.h"
+#include "cwx_asm.h"
 /*
 class MenuItem
 {
@@ -21,46 +22,62 @@ ushort show_menu(const MenuItem *pmenuitems, byte count)
         {
             rect(189, (63 * start / count), 2, 63 / (count - 4));
         }
-        for (byte i = 0; i < 4; i++)
+        for (byte i = 0; i < 8; i++)
         {
             byte j = i + start;
             if (j > count)
                 break;
-            auto y = i * 16 + 1;
-            //Color = 3;
+            auto y = i * 8 + 1;
             if (pmenuitems[j].op != 0)
             {
-                draw_glyph(1, y, i + 0x21);
-                draw_glyph(7, y, ':' - 0x10);
-                line_print_f(pmenuitems[j].string, 20, y);
+                draw_glyph(1, y, i + '0' + 1);
+                draw_glyph(7, y, ':');
+                //line_print_f(pmenuitems[j].string, 20, y);
+                typewrite(pmenuitems[j].string, 20, y, 4000);
             }
             else
             {
                 line_print_f(pmenuitems[j].string, 0, y);
+                //typewrite(pmenuitems[j].string, 0, y, 500);
             }
 
             if (ind == j)
             {
                 //if (pmenuitems[j].op == 0)
                     //Color = 1;
-                rect_line(y, 15);
+                rect_line(y, 8);
+                auto sel = pmenuitems[j].op;
+                auto selidx = 0;
+                while(pmenuitems[j + selidx+1].op == sel)
+                {
+                    
+                    selidx++;
+                    rect_line(y + selidx * 8, 8);
+                }
             }
         }
         //render_copy();
-        auto kv = wait_kiko();
+        //render_ddd4(0xDDD4);
+        auto kv = wait_keycode();
+        ushort sel;
         //auto kv = wait_key();
-        val(0xD130) = kv.ki;
-        val(0xD131) = kv.ko;
-        switch (*(ushort *)(&kv))
+        switch (kv)
         {
         
         case 0x0480:
-            if (ind > 0)
-            ind--;
+
+            sel = pmenuitems[ind].op;
+            while (pmenuitems[ind].op == sel && ind > 0)
+            {
+                ind--;
+            }
             break; // Up
         case 0x0840:
-            if (ind < count - 1)
+            sel = pmenuitems[ind].op;
+            while (pmenuitems[ind].op == sel && ind < count - 1)
+            {
                 ind++;
+            }
             break; // Down
         
         case 0x4001:
@@ -106,7 +123,7 @@ ushort show_menu(const MenuItem *pmenuitems, byte count)
         {
             start = ind;
         }
-        if (ind >= start + 4)
+        if (ind >= start + 8)
         {
             start = ind - 2;
         }

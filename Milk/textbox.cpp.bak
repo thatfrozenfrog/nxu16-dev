@@ -15,7 +15,7 @@ public:
 
         while (1)
         {
-            auto kc = getkeycode();
+            auto kc = get_keycode_cpp();
             if ((ushort)kc == 0)
             {
                 // 忽略无效按键

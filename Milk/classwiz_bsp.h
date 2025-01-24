@@ -102,6 +102,7 @@ inline void __near *GetScreenBuffer()
 }
 
 void reset_timer();
+ushort get_keycode_cpp();
 void delay(ushort after_ticks);
 void reset_sfrs();
 void reset_screen_sfrs();
@@ -111,9 +112,12 @@ struct kiko
     byte ko;
 };
 kiko wait_kiko();
+ushort get_keycode_cpp();
+ushort wait_keycode();
 void draw_glyph(byte x, byte y, byte chr);
 void line_print_n(const char __near *str, byte x, byte y);
 void line_print_f(const char *str, byte x, byte y);
+void typewrite(const char *str, byte x, byte y, ushort delay_ms);
 extern "C" void render_copy(byte select = 0);
 void rect_line(byte y, byte h);
 void rect(byte x, byte y, byte w, byte h);
@@ -137,4 +141,4 @@ enum class KeyCode : ushort {
     Delete,
     AC,
 };
-KeyCode getkeycode();
+//KeyCode getkeycode();

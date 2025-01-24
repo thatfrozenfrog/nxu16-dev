@@ -4,6 +4,8 @@
 #include "menu.h"
 #include "key/matrixkeygpto1.h"
 #include "cwx_asm.h"
+
+#include "libc.h"
 #define PI 3
 typedef short int16_t;
 #define double float
@@ -110,6 +112,8 @@ byte wait_button(void)
 	return button;
 }
 
+
+
 int main(void)
 {
     memzero_n((void __near *)0x9000, ((ushort)0xef00 - (ushort)0x9000));
@@ -119,11 +123,7 @@ int main(void)
 	FCON = 0x81;
 	reset_screen_sfrs();
 	memzero_n((void __near *)GetScreenBuffer(), 0x600 * 2);
-	render_copy();
-	while (1) {
-		ushort key = get_keycode_fixed();
-		val(0xd180) = (key >> 8) & 0xFF;
-		val(0xd181) = key & 0xFF;
-	}
+	show_menu(test_menu, sizeof(test_menu));
+	return 0;
 }
 
