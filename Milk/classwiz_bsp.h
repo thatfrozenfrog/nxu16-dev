@@ -115,8 +115,8 @@ kiko wait_kiko();
 ushort get_keycode_cpp();
 ushort wait_keycode();
 void draw_glyph(byte x, byte y, byte chr);
-void line_print_n(const char __near *str, byte x, byte y);
-void line_print_f(const char *str, byte x, byte y);
+//void line_print_n(const char __near *str, byte x, byte y);
+void line_print(const char *str, byte x, byte y, byte wrapleft = 0, byte wrapright = 180, byte spacing = 0, byte line_spacing = 0);
 void typewrite(const char *str, byte x, byte y, ushort delay_ms);
 extern "C" void render_copy(byte select = 0);
 void rect_line(byte y, byte h);
@@ -131,5 +131,6 @@ enum class KeyCode : ushort {
     Mode = 0x1080,
     Delete = 0x0804,
     AC = 0x1004,
+    Optn = 0x0140
 };
 KeyCode getkeycode();
