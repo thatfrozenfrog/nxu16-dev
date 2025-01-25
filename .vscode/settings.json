@@ -2,6 +2,7 @@
     "files.associations": {
         "cstddef": "cpp",
         "cstdint": "cpp",
-        "compare": "cpp"
+        "compare": "cpp",
+        "lcdpaint.h": "c"
     }
 }
