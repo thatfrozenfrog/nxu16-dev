@@ -15,7 +15,7 @@ public:
 
         while (1)
         {
-            auto kc = get_keycode_cpp();
+            auto kc = getkeycode();
             if ((ushort)kc == 0)
             {
                 // 忽略无效按键
@@ -61,8 +61,7 @@ public:
 
             // 更新屏幕
             memzero_n((void __near *)GetScreenBuffer(), 0x600 * 2);
-            Color = 3;
-
+            
             // 绘制光标
             if (cursor < sizeof(buffer) - 1)
             {
@@ -72,7 +71,6 @@ public:
                 buffer[cursor] = temp;
             }
 
-            render_copy();
         }
     }
 } g_textbox;

@@ -18,10 +18,6 @@ ushort show_menu(const MenuItem *pmenuitems, byte count)
     while (1)
     {
         memzero_n((void __near *)GetScreenBuffer(), 0x600 * 2);
-        if (count > 4)
-        {
-            rect(189, (63 * start / count), 2, 63 / (count - 4));
-        }
         for (byte i = 0; i < 8; i++)
         {
             byte j = i + start;
@@ -32,8 +28,8 @@ ushort show_menu(const MenuItem *pmenuitems, byte count)
             {
                 draw_glyph(1, y, i + '0' + 1);
                 draw_glyph(7, y, ':');
-                //line_print_f(pmenuitems[j].string, 20, y);
-                typewrite(pmenuitems[j].string, 20, y, 4000);
+                line_print_f(pmenuitems[j].string, 20, y);
+                //typewrite(pmenuitems[j].string, 20, y, 4000);
             }
             else
             {
@@ -55,6 +51,11 @@ ushort show_menu(const MenuItem *pmenuitems, byte count)
                     rect_line(y + selidx * 8, 8);
                 }
             }
+        }
+        if (count > 8)
+        {
+            rect(189, (63 * ind / count), 2, 63 / (count - 8));
+
         }
         //render_copy();
         //render_ddd4(0xDDD4);

@@ -4,7 +4,7 @@
 #include "menu.h"
 #include "key/matrixkeygpto1.h"
 #include "cwx_asm.h"
-
+#include "textbox.h"
 #include "libc.h"
 #define PI 3
 typedef short int16_t;
@@ -123,7 +123,9 @@ int main(void)
 	FCON = 0x81;
 	reset_screen_sfrs();
 	memzero_n((void __near *)GetScreenBuffer(), 0x600 * 2);
-	show_menu(test_menu, sizeof(test_menu));
+	Textbox_get();
+	
 	return 0;
+
 }
 

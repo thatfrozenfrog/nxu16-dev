@@ -122,23 +122,14 @@ extern "C" void render_copy(byte select = 0);
 void rect_line(byte y, byte h);
 void rect(byte x, byte y, byte w, byte h);
 enum class KeyCode : ushort {
-    Up = 0xFC00,
-    Down,
-    Left,
-    Right,
-    Shutdown,
-    Ok,
-    PageUp,
-    PageDown,
-    Shift,
-    Settings,
-    Home,
-    Back,
-    Variable,
-    Function,
-    Catalog,
-    Tools,
-    Delete,
-    AC,
+    Up = 0x0480,
+    Down = 0x0840,
+    Left = 0x0440,
+    Right = 0x0880,
+    Ok = 0x4001,
+    Shift = 0x0180,
+    Mode = 0x1080,
+    Delete = 0x0804,
+    AC = 0x1004,
 };
-//KeyCode getkeycode();
+KeyCode getkeycode();
