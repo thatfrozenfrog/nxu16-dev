@@ -1,1 +1,1 @@
-void Textbox_get();
+void Textbox_get(byte x = 0x00, byte y = 0x00);

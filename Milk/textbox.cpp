@@ -6,9 +6,8 @@ class Textbox
 public:
     byte cursor;
     char buffer[200];
-    char buffer_2[200];
 
-    void Get()
+    void Get(byte x, byte y)
     {
         cursor = 0;
         memzero_n((void __near *)buffer, sizeof(buffer));
@@ -23,7 +22,6 @@ public:
             }
 
             auto len = strlen(buffer);
-
             if (kc == KeyCode::Left)
             {
                 if (cursor > 0)
@@ -36,7 +34,6 @@ public:
             }
             else if (kc == KeyCode::Delete)
             {
-                DebugOutputString("Delete\n");
                 if (cursor > 0)
                 {
                     memmove(&buffer[cursor - 1],&buffer[cursor], len - cursor + 1);
@@ -46,7 +43,6 @@ public:
             }
             else if (kc == KeyCode::Ok)
             {
-                DebugOutputString("Finished\n");
                 // 完成输入
                 return;
             }
@@ -60,14 +56,14 @@ public:
             }
 
             // 更新屏幕
-            memzero_n((void __near *)GetScreenBuffer(), 0x600 * 2);
+            memzero_n((void __near *)GetScreenBuffer(), 0x7FF);
             
             // 绘制光标
             if (cursor < sizeof(buffer) - 1)
             {
                 char temp = buffer[cursor];
-                buffer[cursor] = '|';
-                line_print_n((char __near *)buffer, 0, 0);
+                buffer[cursor] = 0x7C;
+                line_print((char *)buffer, x, y, x, 180);
                 buffer[cursor] = temp;
             }
 
@@ -75,7 +71,7 @@ public:
     }
 } g_textbox;
 
-void Textbox_get()
+void Textbox_get(byte x, byte y)
 {
-    g_textbox.Get();
+    g_textbox.Get(x, y);
 }
