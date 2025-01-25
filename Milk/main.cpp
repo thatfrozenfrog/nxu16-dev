@@ -6,10 +6,13 @@
 #include "cwx_asm.h"
 #include "textbox.h"
 #include "libc.h"
+#include "LCD/LCDPaint.h"
+#include "LCD/LCDConfig.h"
+#include "LCD/LCDAdvanced.h"
 #define PI 3
 typedef short int16_t;
 #define double float
-
+/*
 void set_pixel(byte x, byte y)
 {
 	*(byte __near *)(0xf800 + (ushort)y * 0x20 + (x / 8)) |= 0x80 >> (x & 7);
@@ -31,7 +34,7 @@ void plot_line (int x0, int y0, int x1, int y1)
     if (e2 >= dy) { err += dy; x0 += sx; }
     if (e2 <= dx) { err += dx; y0 += sy; }
   }
-}
+}*/
 
 
 
@@ -42,75 +45,9 @@ void plot_line (int x0, int y0, int x1, int y1)
 		//set_pixel(i, cosf((i - 96) / 10.0f) * 12.0f + 24.0f);
 		//plot_line(0x00,0x00,cosf((i - 96) / 10.0f) * 12.0f + 24.0f,sinf((i - 96) / 10.0f) * 12.0f + 24.0f);
 		memzero_n((void __near *)GetScreenBuffer(), 0x600 * 2);
-		line_print_f("Hello world", i, cosf((i - 96) / 10.0f) * 12.0f + 24.0f);
+		line_print("Hello world", i, cosf((i - 96) / 10.0f) * 12.0f + 24.0f);
 		delay(100);
 	}*/
-
-
-
-
-enum BUTTON
-{
-	B_0 = 0xb,
-	B_1 = 0x3f,
-	B_2 = 0x37,
-	B_3 = 0x2f,
-	B_4 = 0x3e,
-	B_5 = 0x36,
-	B_6 = 0x2e,
-	B_7 = 0x3d,
-	B_8 = 0x35,
-	B_9 = 0x2d,
-
-	SP_UP = 0x28,
-	SP_DOWN = 0x21,
-	SP_LEFT = 0x29,
-	SP_RIGHT = 0x20,
-	SP_PLUS = 0x27,
-	SP_MINUS = 0x1F,
-    SP_MUL = 0x26,
-    SP_DIV = 0x1E,
-    SP_OPTN = 0x39,
-    SP_CALC = 0x31,
-	SP_EQU = 0x0F
-};
-
-byte checkButtons()
-{
-    byte i = 0x00;
-	byte lastButton = 0xff;
-
-    for(byte x = 0x80; x != 0; x = x >> 1)
-    {
-        KeyboardOut = x;
-        for(byte y = 0x80; y != 0; y = y >> 1)
-        {
-            if((KeyboardIn & y) == 0)
-            {
-                if(i != lastButton)
-                {
-                    lastButton = i;
-                    return i;
-                }
-                return 0xff;
-            }
-            ++i;
-        }
-    }
-    lastButton = 0x50;
-    return 0xff;
-}
-
-
-byte wait_button(void)
-{
-	byte button = 0xff;
-	while (button == 0xff)
-	{
-		button = checkButtons();
-	}
-	return button;
-}
 
 
 
@@ -123,8 +60,11 @@ int main(void)
 	FCON = 0x81;
 	reset_screen_sfrs();
 	memzero_n((void __near *)GetScreenBuffer(), 0x600 * 2);
-	Textbox_get();
-	
+	//line_print("Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. ", 0, 0x10);
+	//wait_keycode();
+	//Textbox_get(0x10, 0x10);
+	//LCD_Rect(0x10, 0x10, 15, 20, 0x01, LCD_DRAW_SET);
+	LCD_Frame(0x10, 0x10, 0x20, 0x20, 0x05, 0x01, LCD_DRAW_XOR);
 	return 0;
 
 }
