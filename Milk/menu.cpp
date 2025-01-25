@@ -3,6 +3,7 @@
 #include "key/matrixkeygpto1.h"
 #include "menu.h"
 #include "cwx_asm.h"
+#include "LCD/LCDAdvanced.h"
 /*
 class MenuItem
 {
@@ -17,7 +18,7 @@ ushort show_menu(const MenuItem *pmenuitems, byte count)
     byte start = 0;
     while (1)
     {
-        memzero_n((void __near *)GetScreenBuffer(), 0x600 * 2);
+        memzero_n((void __near *)GetScreenBuffer(), 0x7FF);
         for (byte i = 0; i < 8; i++)
         {
             byte j = i + start;
@@ -28,12 +29,12 @@ ushort show_menu(const MenuItem *pmenuitems, byte count)
             {
                 draw_glyph(1, y, i + '0' + 1);
                 draw_glyph(7, y, ':');
-                line_print_f(pmenuitems[j].string, 20, y);
+                line_print(pmenuitems[j].string, 20, y);
                 //typewrite(pmenuitems[j].string, 20, y, 4000);
             }
             else
             {
-                line_print_f(pmenuitems[j].string, 0, y);
+                line_print(pmenuitems[j].string, 0, y);
                 //typewrite(pmenuitems[j].string, 0, y, 500);
             }
 
@@ -54,7 +55,7 @@ ushort show_menu(const MenuItem *pmenuitems, byte count)
         }
         if (count > 8)
         {
-            rect(189, (63 * ind / count), 2, 63 / (count - 8));
+            LCD_Rect(189, (63 * ind / count), 2, 63 / (count - 8) + 1);
 
         }
         //render_copy();
