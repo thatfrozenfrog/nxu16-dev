@@ -221,8 +221,8 @@ void LCD_BufferVLine(LCD_pos_t x, LCD_pos_t y0, LCD_pos_t y1, LCD_color_t c, con
 }
 void LCD_BufferDrawLine(LCD_pos_t x0, LCD_pos_t y0, LCD_pos_t x1, LCD_pos_t y1, LCD_color_t c/*, const LCD_draw_method_t drawMethod*/) {
 	
-	short dx =  abs (x1 - x0), sx = x0 < x1 ? 1 : -1;
-	short dy = -abs (y1 - y0), sy = y0 < y1 ? 1 : -1;
+	short dx =  abs(x1 - x0), sx = x0 < x1 ? 1 : -1;
+	short dy = -abs(y1 - y0), sy = y0 < y1 ? 1 : -1;
 	short err = dx + dy, e2;
 
 	for (;;){
@@ -233,6 +233,7 @@ void LCD_BufferDrawLine(LCD_pos_t x0, LCD_pos_t y0, LCD_pos_t x1, LCD_pos_t y1, 
 		if (e2 <= dx) { err += dx; y0 += sy; }
 	}
 }
+
 
 void LCD_BufferPutSprite(LCD_pos_t x, LCD_pos_t y, LCD_pos_t width, LCD_pos_t height, const byte *sprite, const LCD_draw_method_t drawMethod) {
 	byte plane = 0;
@@ -252,11 +253,12 @@ void LCD_BufferPutSprite(LCD_pos_t x, LCD_pos_t y, LCD_pos_t width, LCD_pos_t he
 		LEFT_MASK >>= BIT_OFFSET;
 	}
 	else if( BIT_OFFSET != 0 ) {
-		// the line starts in one byte and ends in another
+		// the sprite starts in one byte and ends in another
 		LEFT_PIXEL = 8 - BIT_OFFSET;
 		LEFT_MASK = 0xFF >> BIT_OFFSET;
 	}
 	else {
+		// the sprite is aligned
 		LEFT_PIXEL = 0;
 		LEFT_MASK = 0;
 	}
@@ -271,6 +273,7 @@ void LCD_BufferPutSprite(LCD_pos_t x, LCD_pos_t y, LCD_pos_t width, LCD_pos_t he
 		for( curRow = 0; curRow < height; ++curRow ) {	// rows
 			buffer = planeBase + curRow * LCD_BUFFER_WIDTH;
 			pixelCount = width;
+			spriteData = 0;
 
 			if( (LEFT_PIXEL != 0) || ((LEFT_PIXEL == 0) && (width < 8)) ) {
 				// left pixels
@@ -337,7 +340,7 @@ void LCD_BufferPutSprite(LCD_pos_t x, LCD_pos_t y, LCD_pos_t width, LCD_pos_t he
 				// right pixels
 
 				// only fetch new byte when there're more pixels to fill in
-				if( pixelCount < RIGHT_PIXEL ) {
+				if( (LEFT_PIXEL == 0) || ((8 - LEFT_PIXEL) < RIGHT_PIXEL) ) {
 					spriteData |= *sprite++;
 				}
 				bufferData = *buffer;
@@ -365,4 +368,3 @@ void LCD_BufferPutSprite(LCD_pos_t x, LCD_pos_t y, LCD_pos_t width, LCD_pos_t he
 		}
 	}
 }
-
