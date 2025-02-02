@@ -6,6 +6,8 @@
         .type render_ddd4,@function
         .globl sprite8
         .type sprite8,@function
+        .globl FastRender
+        .type FastRender,@function
 
 render_ddd4:
     push lr
@@ -47,3 +49,34 @@ render_ddd4:
     pop xr4
     pop pc
 
+FastRender:
+    push qr8
+    push er4
+    mov r2, 0x20
+    mov r3, 0xF8
+    lea [er2]
+
+    mov er4, sp
+    mov r3, psw
+    DI
+    mov sp, er0
+    mov r2, 63
+
+.loop:
+    pop qr8
+    st qr8, [ea+]
+    pop qr8
+    st qr8, [ea+]
+    pop qr8
+    st qr8, [ea+]
+    st qr8, [ea+]
+
+    add r2, 0xFF
+    bc nz, .loop
+
+    mov psw, r3
+    mov sp, er4
+
+    pop er4
+    pop qr8
+    rt
