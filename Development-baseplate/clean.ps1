@@ -6,6 +6,7 @@ $binFiles = Get-ChildItem -Recurse -Filter *.bin | ForEach-Object { $_.FullName 
 $mapFiles = Get-ChildItem -Recurse -Filter *.map | ForEach-Object { $_.FullName }
 $prnFiles = Get-ChildItem -Recurse -Filter *.prn | ForEach-Object { $_.FullName }
 $dmpFiles = Get-ChildItem -Recurse -Filter *.dmp | ForEach-Object { $_.FullName }
+$llFiles = Get-ChildItem -Recurse -Filter *.ll | ForEach-Object { $_.FullName }
 # Delete temporary object files
 Remove-Item -Force $objFiles
 Remove-Item -Force $sFiles
@@ -15,3 +16,4 @@ Remove-Item -Force $binFiles
 Remove-Item -Force $mapFiles
 Remove-Item -Force $prnFiles
 Remove-Item -Force $dmpFiles
+Remove-Item -Force $llFiles

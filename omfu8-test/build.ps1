@@ -1,5 +1,5 @@
 # Set the path
-$path = "C:\LAPIS\LEXIDE\Bin;C:\LAPIS\LEXIDE\BuildTools\Ver.20231124\Bin;C:\LAPIS\LEXIDE\Utilities\Bin;$env:PATH"
+$path = "E:\LAPIS\LEXIDE\Bin;E:\LAPIS\LEXIDE\BuildTools\Ver.20231124\Bin;E:\LAPIS\LEXIDE\Utilities\Bin;E:\LAPIS\LEXIDE\BuildTools\Ver.20231124\Lib\U16;$env:PATH"
 $env:PATH = $path
 
 # Find all C/C++ files and ASM files
@@ -7,24 +7,35 @@ $cFiles = Get-ChildItem -Recurse -Filter *.c | ForEach-Object { $_.FullName }
 $cppFiles = Get-ChildItem -Recurse -Filter *.cpp | ForEach-Object { $_.FullName }
 $asmFiles = Get-ChildItem -Recurse -Filter *.asm | ForEach-Object { $_.FullName }
 
-& clang-u16.exe -c ($cppFiles) -v -I. -Ilibc -std=c++11 -O3
-& clang-u16.exe -c ($cFiles) -v -I. -Ilibc
+& clang-u16.exe -S ($cppFiles) -v -I. -Ilibc -lapisomf -type=ML620906 -emit-llvm
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-& clang-u16.exe -c ($cFiles) -S -v  -I. -Ilibc
-& clang-u16.exe -c ($cppFiles) -S -v  -I. -Ilibc -O3 -std=c++11
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+Write-Host "Compiling ASM files..."
 
 # Compile ASM files
 foreach ($file in $asmFiles) {
-    & llvm-mc-u16 $file
+    & rasu8 $file /G /SD
+}
+Write-Host "Compiling LL files..."
+# Find all generated llvm files
+$llFiles = Get-ChildItem -Recurse -Filter *.ll | ForEach-Object { $_.FullName }
+foreach ($file in $llFiles) {
+    & llc-u16 -lapisomf -type=ML620906  $file
+    Write-Host $file
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 }
 
-# Find all generated object files
-$objFiles = Get-ChildItem -Recurse -Filter *.o | ForEach-Object { $_.FullName }
+# Find all generated S files
+$sFiles = Get-ChildItem -Recurse -Filter *.s | ForEach-Object { $_.FullName }
+foreach ($file in $sFiles) {
+    & rasu8 $file /G /SD
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+}
+
+exit 0
 
 # Link
-& lld-u16 --print-gc-sections -S -L"C:/LAPIS/LEXIDE/BuildTools/Ver.20231124/Lib/U16/" -T startup.ld -o program.elf -Map program.map $objFiles -l"PL99U16LWF.a" -l"longu8.a" -l"doubleu8.a"
+& lld-u16 --print-gc-sections -S -L"E:/LAPIS/LEXIDE/BuildTools/Ver.20231124/Lib/U16/" -T startup.ld -o program.elf -Map program.map $objFiles -l"PL99U16LWF.a" -l"longu8.a" -l"doubleu8.a"
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 # Convert ELF file to HEX file
@@ -36,7 +47,7 @@ if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 # Copy BIN file to the specified directory
-# Copy-Item -Force program.bin "C:\Users\15874\source\repos\CasioEmuX\x64\PatchableRelease\models\Cosine\Cosine.bin"
+# Copy-Item -Force program.bin "E:\Users\15874\source\repos\CasioEmuX\x64\PatchableRelease\models\Cosine\Cosine.bin"
 Copy-Item -Force program.bin "D:\CasioEmuMsvc\CasioEmuMsvc\models\nxu16-dev-test\rom.bin"
 
 $sFiles = Get-ChildItem -Recurse -Filter *.s | ForEach-Object { $_.FullName }

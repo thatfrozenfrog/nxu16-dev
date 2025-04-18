@@ -1,0 +1,132 @@
+RASU8(ML620906)Relocatable Assembler, Ver.1.80.4    assemble list. page:   1 
+ Source File: E:\nxu16-dev\omfu8-test\main.s
+ Object File: E:\nxu16-dev\omfu8-test\main.obj
+ Date  : 2025/02/05 Wed.[12:03]
+ Title : 
+## Loc. Object                   Line   Source Statements
+
+                                    1   ;; Compile Options : 
+                                    2   ;; Version Number  : Ver.1.30.0
+                                    3   ;; File Name       : main.cpp
+                                    4   
+                                    5   	type (ML620906) 
+                                    6   	model large, far
+                                    7   	$$main$main segment code 2h any
+                                    8   	STACKSEG 0400h
+                                    9   CVERSION 1.30.0
+                                   10   
+  --------------------------       11   	rseg $$main$main               
+                                                 ;; -- Begin function main
+??:0000                            12   _main :
+                                   13   ;; %bb.0:
+??:0000 1A-AE                      14   	mov	fp, sp
+??:0002 F8 E1                      15   	add	sp, #-8
+??:0004 00 E0                      16   	mov	er0, #0
+??:0006 FE B0                      17   	st	er0, -2[fp]
+??:0008 FC B0                      18   	st	er0, -4[fp]
+??:000A 00-F0'00-00'               19   	b	$$BB0_1
+                                   20   
+??:000E                            21   $$BB0_1:
+??:000E E8-90 FC-FF                22   	l	r0, 0fffch[fp]
+??:0012 E8-91 FD-FF                23   	l	r1, 0fffdh[fp]
+??:0016 FF 02                      24   	mov	r2, #-1
+??:0018 07 03                      25   	mov	r3, #7
+??:001A 27-F0                      26   	cmp	er0, er2
+??:001C 18 C2                      27   	bgt	$$BB0_4
+??:001E 00-F0'00-00'               28   	b	$$BB0_2
+                                   29   
+??:0022                            30   $$BB0_2:
+??:0022 E8-92 FC-FF                31   	l	r2, 0fffch[fp]
+??:0026 E8-93 FD-FF                32   	l	r3, 0fffdh[fp]
+??:002A 00 00                      33   	mov	r0, #0
+??:002C F8 01                      34   	mov	r1, #-8
+??:002E 26-F0                      35   	add	er0, er2
+??:0030 05-F4                      36   	mov	er4, er0
+??:0032 00 06                      37   	mov	r6, #00h
+??:0034 00 E0                      38   	mov	er0, #0
+??:0036 6F-90 43-90                39   	st	er0, r6:[er4]
+??:003A 00-F0'00-00'               40   	b	$$BB0_3
+                                   41   
+??:003E                            42   $$BB0_3:
+??:003E E8-90 FC-FF                43   	l	r0, 0fffch[fp]
+??:0042 E8-91 FD-FF                44   	l	r1, 0fffdh[fp]
+??:0046 81 E0                      45   	add	er0, #01h
+??:0048 FC B0                      46   	st	er0, -4[fp]
+??:004A 00-F0'00-00'               47   	b	$$BB0_1
+                                   48   
+??:004E                            49   $$BB0_4:
+??:004E 00 E0                      50   	mov	er0, #0
+??:0050 FA B0                      51   	st	er0, -6[fp]
+??:0052 00-F0'00-00'               52   	b	$$BB0_5
+RASU8(ML620906)Relocatable Assembler, Ver.1.80.4    assemble list. page:   2 
+ Title : 
+## Loc. Object                   Line   Source Statements
+
+                                   53   
+??:0056                            54   $$BB0_5:
+??:0056 E8-90 FA-FF                55   	l	r0, 0fffah[fp]
+??:005A E8-91 FB-FF                56   	l	r1, 0fffbh[fp]
+??:005E FF 02                      57   	mov	r2, #-1
+??:0060 1E 03                      58   	mov	r3, #30
+??:0062 27-F0                      59   	cmp	er0, er2
+??:0064 18 C2                      60   	bgt	$$BB0_8
+??:0066 00-F0'00-00'               61   	b	$$BB0_6
+                                   62   
+??:006A                            63   $$BB0_6:
+??:006A E8-92 FA-FF                64   	l	r2, 0fffah[fp]
+??:006E E8-93 FB-FF                65   	l	r3, 0fffbh[fp]
+??:0072 00 00                      66   	mov	r0, #0
+??:0074 D0 01                      67   	mov	r1, #-48
+??:0076 26-F0                      68   	add	er0, er2
+??:0078 05-F4                      69   	mov	er4, er0
+??:007A 00 06                      70   	mov	r6, #00h
+??:007C 00 E0                      71   	mov	er0, #0
+??:007E 6F-90 43-90                72   	st	er0, r6:[er4]
+??:0082 00-F0'00-00'               73   	b	$$BB0_7
+                                   74   
+??:0086                            75   $$BB0_7:
+??:0086 E8-90 FA-FF                76   	l	r0, 0fffah[fp]
+??:008A E8-91 FB-FF                77   	l	r1, 0fffbh[fp]
+??:008E 81 E0                      78   	add	er0, #01h
+??:0090 FA B0                      79   	st	er0, -6[fp]
+??:0092 00-F0'00-00'               80   	b	$$BB0_5
+                                   81   
+??:0096                            82   $$BB0_8:
+??:0096 00-F0'00-00'               83   	b	$$BB0_9
+                                   84   
+??:009A                            85   $$BB0_9:
+??:009A 00 00                      86   	mov	r0, #0
+??:009C D8 01                      87   	mov	r1, #-40
+??:009E 01-F0'00-00'               88   	bl	_FastRender
+??:00A2 00-F0'00-00'               89   	b	$$BB0_9
+                                   90   
+??:00A6                            91   _$$end_of_main :
+??:00A6 FF CE                      92   	bal	$
+                                   93   
+                                   94   
+                                   95                                          
+                                         ;; -- End function
+                                   96   
+                                   97   	public _main
+                                   98   
+                                   99   	extrn code far : _FastRender
+                                  100   	extrn code : $$start_up
+                                  101   
+  --------------------------      102   	cseg #00h at 02h
+00:0002 00-00'                    103   	dw	$$start_up
+                                  104   
+                                  105   
+                                  106   
+                                  107   	end
+
+
+
+  Target       : ML620906 (nX-U8/100)
+  Memory Model : LARGE
+  Data   Model : FAR
+  ROM WINDOW   :    0H to CFFFH
+  Internal RAM : D000H to EFFFH
+
+  Errors   : 0
+  Warnings : 0  (/Wrpeast)
+  Lines    : 107

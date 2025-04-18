@@ -7,12 +7,9 @@ $cFiles = Get-ChildItem -Recurse -Filter *.c | ForEach-Object { $_.FullName }
 $cppFiles = Get-ChildItem -Recurse -Filter *.cpp | ForEach-Object { $_.FullName }
 $asmFiles = Get-ChildItem -Recurse -Filter *.asm | ForEach-Object { $_.FullName }
 
-& clang-u16.exe -c ($cppFiles) -v -I. -Ilibc -std=c++11 -O3
-& clang-u16.exe -c ($cFiles) -v -I. -Ilibc
+& clang-u16.exe -S ($cppFiles) -v -I. -Ilibc -lapisomf -type=ML620906 -emit-llvm
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-& clang-u16.exe -c ($cFiles) -S -v  -I. -Ilibc
-& clang-u16.exe -c ($cppFiles) -S -v  -I. -Ilibc -O3 -std=c++11
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
 
 # Compile ASM files
 foreach ($file in $asmFiles) {
@@ -20,8 +17,14 @@ foreach ($file in $asmFiles) {
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 }
 
-# Find all generated object files
-$objFiles = Get-ChildItem -Recurse -Filter *.o | ForEach-Object { $_.FullName }
+# Find all generated llvm files
+$llFiles = Get-ChildItem -Recurse -Filter *.ll | ForEach-Object { $_.FullName }
+foreach ($file in $llFiles) {
+    & llc-u16 -lapisomf -type=ML620906 -mtriple=U16_U8CORE -code-model=large -data-model=far $file
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+}
+
+exit 0
 
 # Link
 & lld-u16 --print-gc-sections -S -L"C:/LAPIS/LEXIDE/BuildTools/Ver.20231124/Lib/U16/" -T startup.ld -o program.elf -Map program.map $objFiles -l"PL99U16LWF.a" -l"longu8.a" -l"doubleu8.a"

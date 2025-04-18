@@ -1,0 +1,42 @@
+Copyright (C) 2008-2018 LAPIS Semiconductor Co., Ltd.
+
+INPUT FILES [.OBJ]: 
+
+USAGE:  RLU8
+        RLU8 @response_file
+        RLU8 input_files,[output_file],[map_file],[reglib_files] [;]
+
+OPTIONS:
+    ( *:default, segment:segment name, adrs:address )
+    /D                                ASM debug information output.
+    /ND                             * ASM debug information not output.
+    /SD                               C debug information output.
+    /NSD                            * C debug information not output
+    /A[(abl_file)]                    Absolute listing information output.
+    /NA                             * Absolute listing information not output
+    /CODE( segment [[-]adrs] ... )    CODE segments allocation control.
+    /TABLE( segment [[-]adrs] ... )   TABLE segments allocation control.
+    /DATA( segment [[-]adrs] ... )    DATA segments allocation control.
+    /BIT( segment [[-]adrs] ... )     BIT  segments allocation control.
+    /NVDATA( segment [[-]adrs] ... )  NVDATA segments allocation control.
+    /NVBIT( segment [[-]adrs] ... )   NVBIT segments allocation control.
+    /ORDER( segment ... )             Segments allocation order control.
+    /S                                Public symbol information output.
+    /NS                             * Public symbol information not output.
+Press <return> to continue
+    /ROM( start, end )                Establish external ROM area.
+    /RAM( start, end )                Establish external RAM area.
+    /NVRAM( start, end )              Establish external NVRAM area.
+    /NVRAMP( start, end )             Establish external NVRAM area. (#0 only)
+    /ROMWIN( start, end )             Establish ROM WINDOW area.
+    /CC                               Search standard libraries.
+    /STACK( stack_size )              Change stack size.
+    /COMB( segment ... )              Combine segments. (CODE or TABLE)
+    /EXC                              Exclude module unused extrn symbol.
+    /PDIF                             Permit difference of memory information.
+    /LA                               Link all segments.
+    /CP                               Change priority of table segments.
+    /OVERLAY( areaname, start, end ){ UNIT( segment ... ) ... }
+                                      Specifies overlay area and overlay units.
+    /ABW                              Change return code for warning to 0.
+    /ODRLIST                          Generate a segment assignment order file.

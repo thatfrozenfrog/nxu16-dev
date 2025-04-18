@@ -96,7 +96,7 @@
 #define Color *((__near byte *)0x9207)
 #define BufferSelect *((__near byte *)0x9208)
 
-inline void __near *GetScreenBuffer()
+void __near *GetScreenBuffer()
 {
     return (void __near *)0xf800;
 }
